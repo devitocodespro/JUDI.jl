@@ -191,7 +191,6 @@ class Model(object):
             self._physical_parameters = []
 
         # Seismic fields and properties
-        self.scale = 1
         self._space_order = space_order
 
         # Create square slowness of the wave as symbol `m`
@@ -216,16 +215,16 @@ class Model(object):
 
         # Additional parameter fields for TTI operators
         if self._is_tti:
-            epsilon = 1 if epsilon is None else 1 + 2 * to_numpy(epsilon)
-            delta = 1 if delta is None else 1 + 2 * to_numpy(delta)
+            epsilon = 1 if epsilon is None else to_numpy(epsilon)
+            delta = 1 if delta is None else to_numpy(delta)
             self.epsilon = self._gen_phys_param(epsilon, 'epsilon', space_order)
-            self.scale = np.sqrt(np.max(epsilon))
             self.delta = self._gen_phys_param(delta, 'delta', space_order)
             self.theta = self._gen_phys_param(theta, 'theta', space_order)
             if self.grid.dim == 3:
                 self.phi = self._gen_phys_param(phi, 'phi', space_order)
 
         # Additional parameter fields for elastic
+        self._C = None
         if self._is_elastic:
             self.lam = self._gen_phys_param(lam, 'lam', space_order, is_param=True)
             try:
@@ -240,6 +239,8 @@ class Model(object):
             except TypeError:
                 b = 1
             vp_vals = ((to_numpy(lam) + 2 * mu) * b)**(.5)
+            if self._is_tti:
+                self.C
 
         # Elastic tti only supported in pro
         if SeismicStiffness is None and self._is_elastic and self._is_tti:
@@ -280,9 +281,20 @@ class Model(object):
         """
         Return all set physical parameters and update to input values if provided
         """
-        params = {i: kwargs.get(i, getattr(self, i)) for i in self._physical_parameters
-                  if isinstance(getattr(self, i), Function) or
-                  isinstance(getattr(self, i), Constant)}
+        grad = kwargs.pop('grad', False)
+        # Elastic TTI
+        if self._C is not None:
+            params = {cij.name: cij for cij in self._C if isinstance(cij, Function)}
+            params['damp'] = self.damp
+            params['irho'] = self.irho
+            params['mu'] = self.mu
+            if grad:
+                params['lam'] = self.lam
+        else:
+            params = {i: kwargs.get(i, getattr(self, i))
+                      for i in self._physical_parameters
+                      if isinstance(getattr(self, i), Function) or
+                      isinstance(getattr(self, i), Constant)}
 
         if not kwargs.get('born', False):
             params.pop('dm', None)
@@ -508,8 +520,10 @@ class Model(object):
 
     @property
     def C(self):
-        C = SeismicStiffness(self.dim, precompute=True, **self.physical_params())
-        return C
+        if self._C is None:
+            self._C = SeismicStiffness(self.dim, precompute=True,
+                                       b=self.irho, **self.physical_params())
+        return self._C
 
     def abox(self, src, rec, fw=True):
         if ABox is None or (src is None and rec is None):
@@ -548,6 +562,7 @@ class EmptyModel(Model):
     """
 
     def __init__(self, tti, visco, elastic, spacing, fs, space_order, p_params):
+        self._C = None
         self._is_tti = tti
         self._is_viscoacoustic = visco
         self._is_elastic = elastic

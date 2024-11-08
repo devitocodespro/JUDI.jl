@@ -77,8 +77,8 @@ def geom_expr(model, u, src_coords=None, rec_coords=None,
         # Elastic inject into diagonal of stress
         if model.is_elastic:
             c = 1 / model.grid.dim
-            src_eq = src.inject(field=as_tuple(u)[1].forward.diagonal(),
-                                expr=c*src*dt/irho)
+            tau = as_tuple(u)[1].forward if fw else as_tuple(u)[1].backward
+            src_eq = src.inject(field=tau.diagonal(), expr=c*src*dt/irho)
             if model.fs:
                 # Free surface
                 src_eq = mirror_source(model, src_eq)

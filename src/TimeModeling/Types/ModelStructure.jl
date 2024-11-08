@@ -380,9 +380,6 @@ function Model(d, o, m::Array{mT, N}; epsilon=nothing, delta=nothing, theta=noth
     # Elastic
     if !isnothing(vs)
         rho = isa(rho, Array) ? rho : _scalar(rho, T)
-        if any(!isnothing(p) for p in [theta, phi])
-            @warn "Only VTI Thomsen parameters supported for elastic (vs), ignoring angles"
-        end
         lambda = PhysicalParameter(as_Pdtype((m.^(-1) .- T(2) .* vs.^2) .* rho), n, d, o)
         mu = PhysicalParameter(as_Pdtype(vs.^2 .* rho), n, d, o)
         b = _process_param(1 ./ rho, n, d, o; default=1)

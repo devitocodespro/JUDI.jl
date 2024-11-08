@@ -20,6 +20,11 @@ except ImportError:
 
 
 def name(model):
+    if model.is_elastic:
+        if model.is_tti:
+            return "ttielas"
+        else:
+            return "elas"
     if model.is_tti:
         return "tti"
     elif model.is_viscoacoustic:

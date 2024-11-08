@@ -60,6 +60,9 @@ def thomsen_mat(model):
     # Diagonal matrices
     b = model.irho
     eps, delt = model.epsilon, model.delta
+    eps = 1 + 2 * eps
+    delt = 1 + 2 * delt
+
     a_ii = [[b * delt, 0, 0],
             [0, b * delt, 0],
             [0, 0, b]]

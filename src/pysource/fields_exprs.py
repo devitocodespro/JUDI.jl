@@ -29,7 +29,8 @@ def save_subsampled(model, u, nt, t_sub, space_order=8):
     if wf_s is None:
         return []
     eq_save = []
-    for (wfs, wf) in zip(wf_s, as_tuple(u)):
+    saved_state = (u[1].trace(),) if model.is_elastic else as_tuple(u)
+    for (wfs, wf) in zip(wf_s, saved_state):
         eq_save.append(Eq(wfs, wf, subdomain=model.physical))
     return eq_save
 

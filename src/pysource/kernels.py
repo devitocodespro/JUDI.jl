@@ -219,15 +219,15 @@ def elastic_kernel(model, v, tau, fw=True, q=None):
 
     # Stress
     try:
-        e = (grad(v.forward) + grad(v.forward).transpose(inner=False))
+        e = (grad(vnext) + grad(vnext).transpose(inner=False))
     except TypeError:
         # Older devito version
-        e = (grad(v.forward) + grad(v.forward).T)
+        e = (grad(vnext) + grad(vnext).T)
 
     if model.is_tti:
-        eq_tau = tau_dt - model.C.prod(e) + damp * taunext
+        eq_tau = tau_dt - model.C.prod(1/2 * e) + damp * taunext
     else:
-        eq_tau = tau_dt - lam * diag(div(v.forward)) - mu * e + damp * taunext
+        eq_tau = tau_dt - lam * diag(div(vnext)) - mu * e + damp * taunext
 
     u_v = [Eq(vnext, solve(eq_v, vnext), subdomain=model.physical)]
     if model.fs:

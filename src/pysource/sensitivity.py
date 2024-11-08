@@ -14,14 +14,16 @@ except ImportError:
     dvp = None
 
 
-def func_name(freq=None, ic="as"):
+def func_name(model, freq=None, ic="as"):
     """
     Get key for imaging condition/linearized source function
     """
-    if freq is None:
+    if model.is_elastic:
+        return "%s_elas" % ic
+    elif freq is None:
         return str(ic)
     else:
-        return "%s_%s" % (ic, "freq")
+        return "%s_freq" % ic
 
 
 def grad_expr(gradm, u, v, model, w=None, freq=None, dft_sub=None, ic="as"):
@@ -45,7 +47,7 @@ def grad_expr(gradm, u, v, model, w=None, freq=None, dft_sub=None, ic="as"):
     isic: Bool
         Whether or not to use inverse scattering imaging condition (not supported yet)
     """
-    ic_func = ic_dict[func_name(freq=freq, ic=ic)]
+    ic_func = ic_dict[func_name(model, freq=freq, ic=ic)]
     u, v = as_tuple(u), as_tuple(v)
     expr = ic_func(u, v, model, freq=freq, factor=dft_sub, w=w)
     eq_g = [Eq(gradm, gradm - expr, subdomain=model.physical)]
@@ -157,6 +159,26 @@ def isic_freq(u, v, model, **kwargs):
     return expr
 
 
+def isic_elas_time(u, v, model, **kwargs):
+    raise NotImplementedError("Elastic ISIC not implemented yet")
+
+
+def crosscorr_elas_time(u, v, model, **kwargs):
+    """
+    lam = (1/m - 2*vs**2) * rho
+    1 / m = (lam/rho + 2*vs**2)
+
+    d/dm = d/dlam * dlam/dm
+
+    dlam/dm = -rho * (1/m)**2
+    """
+    taua = v[1].trace()
+    dlam = u[0] * taua / model.lam**2
+    im =  (model.lam * model.irho + model.mu)**2
+    expr = - dlam * im / model.irho
+    return expr
+
+
 def lin_src(model, u, ic="as"):
     """
     Source for linearized modeling
@@ -170,7 +192,7 @@ def lin_src(model, u, ic="as"):
     ic: String
         Imaging condition of which we compute the linearized source
     """
-    ls_func = ls_dict[func_name(ic=str(ic))]
+    ls_func = ls_dict[func_name(model, ic=str(ic))]
     return ls_func(model, as_tuple(u))
 
 
@@ -232,7 +254,8 @@ fwi_freq = lambda *ar, **kw: isic_freq(*ar, icsign=-1, **kw)
 
 ic_dict = {"isic_freq": isic_freq, "as_freq": crosscorr_freq,
            "fwi": fwi_time, "fwi_freq": fwi_freq,
-           "isic": isic_time, "as": crosscorr_time}
+           "isic": isic_time, "as": crosscorr_time,
+           "isic_elas": isic_elas_time, "as_elas": crosscorr_elas_time}
 ls_dict = {"isic": isic_src, "fwi": fwi_src, "as": basic_src}
 
 

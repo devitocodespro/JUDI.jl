@@ -103,7 +103,7 @@ def gradient(model, residual, rcv_coords, u, return_op=False, fw=True,
     """
     # Space order
     space_order = model.space_order
-    # Setting adjoint wavefieldgradient
+    # Setting adjoint wavefield
     v = wavefield(model, space_order, fw=not fw, tfull=True)
     try:
         t_sub = as_tuple(u)[0].indices[0]._factor
@@ -133,7 +133,7 @@ def gradient(model, residual, rcv_coords, u, return_op=False, fw=True,
     I = illumination(v, illum)
 
     kw.update(fields_kwargs(src, u, v, gradm, f0q, f, I))
-    kw.update(model.physical_params())
+    kw.update(model.physical_params(grad=True))
     kw.update(model.abox(src, None, fw=not fw))
 
     # SLS field

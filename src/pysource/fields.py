@@ -41,18 +41,20 @@ def wavefield(model, space_order, save=False, nt=None, fw=True, name='', t_sub=1
     save = False if t_sub > 1 else save
     nsave = Buffer(3 if tfull else 2) if not save else nt
 
-    if model.is_tti:
+    if model.is_elastic:
+        vn = "vel" if fw else "vela"
+        taun = "stress" if fw else "stressa"
+        v = VectorTimeFunction(name=vn, grid=model.grid, time_order=1,
+                               space_order=space_order, save=Buffer(1))
+        tau = TensorTimeFunction(name=taun, grid=model.grid, time_order=1,
+                                 space_order=space_order, save=Buffer(1))
+        return (v, tau)
+    elif model.is_tti:
         u = TimeFunction(name="%s1" % name, grid=model.grid, time_order=2,
                          space_order=space_order, save=nsave)
         v = TimeFunction(name="%s2" % name, grid=model.grid, time_order=2,
                          space_order=space_order, save=nsave)
         return (u, v)
-    elif model.is_elastic:
-        v = VectorTimeFunction(name="v", grid=model.grid, time_order=1,
-                               space_order=space_order, save=Buffer(1))
-        tau = TensorTimeFunction(name="tau", grid=model.grid, time_order=1,
-                                 space_order=space_order, save=Buffer(1))
-        return (v, tau)
     else:
         return TimeFunction(name=name, grid=model.grid, time_order=2,
                             space_order=space_order, save=nsave)
@@ -145,10 +147,12 @@ def wavefield_subsampled(model, u, nt, t_sub, space_order=8):
     else:
         return None
     wf_s = []
-    for wf in as_tuple(u):
-        usave = dvp.TimeFunction(name='us_%s' % wf.name, grid=model.grid, time_order=2,
-                                 space_order=space_order, time_dim=time_subsampled,
-                                 save=nsave, compression=compression_mode())
+    saved_state = (u[1][0],) if model.is_elastic else as_tuple(u)
+    for wf in saved_state:
+        usave = dvp.TimeFunction(name='%s_s' % wf.name, grid=model.grid,
+                                 time_order=wf.time_order, space_order=space_order,
+                                 time_dim=time_subsampled, save=nsave,
+                                 compression=compression_mode())
         wf_s.append(usave)
     return wf_s
 
