@@ -1,3 +1,5 @@
+import numpy as np
+
 from devito.tools import as_tuple
 
 from sources import *
@@ -19,7 +21,12 @@ def src_rec(model, u, src_coords=None, rec_coords=None, wavelet=None, nt=None):
         else:
             src = PointSource(name="src%s" % namef, grid=model.grid, ntime=nt,
                               coordinates=src_coords)
-            src.data[:] = wavelet if wavelet is not None else 0.
+            if wavelet is not None:
+                try:
+                    src.data[:] = wavelet.to_numpy(copy=False)
+                except AttributeError:
+                    src.data[:] = np.array(wavelet)[:]
+
     rcv = None
     if rec_coords is not None:
         rcv = Receiver(name="rcv%s" % namef, grid=model.grid, ntime=nt,

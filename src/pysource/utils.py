@@ -159,7 +159,7 @@ def compression_mode():
     if isinstance(configuration['compiler'], (NvidiaCompiler, CudaCompiler)):
         return 'bitcomp'
     else:
-        return 'noop'
+        return 'cvxcompress'
 
 
 def npdot(a, b):

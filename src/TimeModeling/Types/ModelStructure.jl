@@ -308,9 +308,24 @@ struct ViscIsoModel{T, N} <: AbstractModel{T, N}
     qp::ModelParam{N}
 end
 
+
+# VTI Elastic
+
+struct TTIElModel{T, N} <: AbstractModel{T, N}
+    G::DiscreteGrid{T, N}
+    lam::ModelParam{N}
+    mu::ModelParam{N}
+    b::ModelParam{N}
+    epsilon::ModelParam{N}
+    delta::ModelParam{N}
+    theta::ModelParam{N}
+    phi::ModelParam{N}
+end
+
 _params(m::IsoModel) = ((:m, m.m), (:rho, m.rho))
 _params(m::TTIModel) = ((:m, m.m), (:rho, m.rho), (:epsilon, m.epsilon), (:delta, m.delta), (:theta, m.theta), (:phi, m.phi))
 _params(m::IsoElModel) = ((:lam, m.lam), (:mu, m.mu), (:b, m.b))
+_params(m::TTIElModel) =  ((:lam, m.lam), (:mu, m.mu), (:b, m.b), (:epsilon, m.epsilon), (:delta, m.delta), (:theta, m.theta), (:phi, m.phi))
 _params(m::ViscIsoModel) = ((:m, m.m), (:rho, m.rho), (:qp, m.qp))
 
 _mparams(m::AbstractModel) = first.(_params(m))
@@ -365,13 +380,22 @@ function Model(d, o, m::Array{mT, N}; epsilon=nothing, delta=nothing, theta=noth
     # Elastic
     if !isnothing(vs)
         rho = isa(rho, Array) ? rho : _scalar(rho, T)
-        if any(!isnothing(p) for p in [epsilon, delta, theta, phi])
-            @warn "Thomsen parameters no supported for elastic (vs) ignoring them"
+        if any(!isnothing(p) for p in [theta, phi])
+            @warn "Only VTI Thomsen parameters supported for elastic (vs), ignoring angles"
         end
         lambda = PhysicalParameter(as_Pdtype((m.^(-1) .- T(2) .* vs.^2) .* rho), n, d, o)
         mu = PhysicalParameter(as_Pdtype(vs.^2 .* rho), n, d, o)
-        b = isa(rho, Array) ? PhysicalParameter(as_Pdtype(1 ./ rho), n, d, o) : _scalar(rho, T)
-        return IsoElModel{T, N}(G, lambda, mu, b)
+        b = _process_param(1 ./ rho, n, d, o; default=1)
+        # VTI?
+        if !isnothing(epsilon) || !isnothing(delta)
+            epsilon = _process_param(epsilon, n, d, o; default=0)
+            delta = _process_param(delta, n, d, o; default=0)
+            theta = _process_param(theta, n, d, o; default=0)
+            phi = _process_param(phi, n, d, o; default=0)
+            return TTIElModel{T, N}(G, lambda, mu, b, epsilon, delta, theta, phi)
+        else
+            return IsoElModel{T, N}(G, lambda, mu, b)
+        end
     end
 
     ## Visco
@@ -379,9 +403,9 @@ function Model(d, o, m::Array{mT, N}; epsilon=nothing, delta=nothing, theta=noth
         if any(!isnothing(p) for p in [epsilon, delta, theta, phi])
             @warn "Thomsen parameters no supported for elastic (vs) ignoring them"
         end
-        qp = isa(qp, Array) ? PhysicalParameter(as_Pdtype(qp), n, d, o)  : _scalar(qp, T)
+        qp = _process_param(qp, n, d, o)
         m = PhysicalParameter(m, n, d, o)
-        rho = isa(rho, Array) ? PhysicalParameter(as_Pdtype(rho), n, d, o) : _scalar(rho, T)
+        rho = _process_param(rho, n, d, o)
         return ViscIsoModel{T, N}(G, m, rho, qp)
     end
 
@@ -391,21 +415,25 @@ function Model(d, o, m::Array{mT, N}; epsilon=nothing, delta=nothing, theta=noth
             @warn "Elastic (vs) and attenuation (qp) not supported for TTI/VTI"
         end
         m = PhysicalParameter(m, n, d, o)
-        rho = isa(rho, Array) ? PhysicalParameter(as_Pdtype(rho), n, d, o) : _scalar(rho, T)
-        epsilon = isa(epsilon, Array) ? PhysicalParameter(as_Pdtype(epsilon), n, d, o) : _scalar(epsilon, T, 0)
-        delta = isa(delta, Array) ? PhysicalParameter(as_Pdtype(delta), n, d, o) : _scalar(delta, T, 0)
+        rho = _process_param(rho, n, d, o)
+        epsilon = _process_param(epsilon, n, d, o; default=0)
+        delta = _process_param(delta, n, d, o; default=0)
         # For safety remove delta values unsupported (delta > epsilon)
         _clip_delta!(delta, epsilon)
-        theta = isa(theta, Array) ? PhysicalParameter(as_Pdtype(theta), n, d, o) : _scalar(theta, T, 0)
-        phi = isa(phi, Array) ? PhysicalParameter(as_Pdtype(phi), n, d, o) : _scalar(phi, T, 0)
+        theta = _process_param(theta, n, d, o; default=0)
+        phi = _process_param(phi, n, d, o; default=0)
         return TTIModel{T, N}(G, m, rho, epsilon, delta, theta, phi)
     end
 
     # None of the advanced models, return isotropic acoustic
     m = PhysicalParameter(m, n, d, o)
-    rho = isa(rho, Array) ? PhysicalParameter(as_Pdtype(rho), n, d, o) : _scalar(rho, T)
+    rho = _process_param(rho, n, d, o)
     return IsoModel{T, N}(G, m, rho)
 end
+
+
+_process_param(p::Array, n, d, o; default=1) = PhysicalParameter(as_Pdtype(p), n, d, o)
+_process_param(p, n, d, o; default=1) = _scalar(p, Float32, default)
 
 as_Pdtype(x::Array{T, N}) where {T<:Pdtypes, N} = x
 as_Pdtype(x::Array{T, N}) where {T, N} = convert(Array{Float32, N}, x)

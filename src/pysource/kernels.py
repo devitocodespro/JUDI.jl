@@ -7,10 +7,10 @@ from fields_exprs import freesurface
 from FD_utils import laplacian, sa_tti
 
 try:
-    from recipes import recipes_registry
+    from recipes.elastic_tti import ElasticTTI
     from recipes.utils import vs_mask_derivs
 except ImportError:
-    recipes_registry = {}
+    ElasticTTI = None
 
     def vs_mask_derivs(eq, tau, vs):
         return eq
@@ -32,12 +32,12 @@ def wave_kernel(model, u, fw=True, q=None, f0=0.015):
         Full time-space source
     f0 : Peak frequency
     """
-    if model.is_tti:
+    if model.is_elastic:
+        pde = elastic_kernel(model, u[0], u[1], fw=fw, q=q)
+    elif model.is_tti:
         pde = tti_kernel(model, u[0], u[1], fw=fw, q=q)
     elif model.is_viscoacoustic:
         pde = SLS_2nd_order(model, u, fw=fw, q=q, f0=f0)
-    elif model.is_elastic:
-        pde = elastic_kernel(model, u[0], u[1], fw=fw, q=q)
     else:
         pde = acoustic_kernel(model, u, fw=fw, q=q)
     return pde
@@ -224,7 +224,10 @@ def elastic_kernel(model, v, tau, fw=True, q=None):
         # Older devito version
         e = (grad(v.forward) + grad(v.forward).T)
 
-    eq_tau = tau_dt - lam * diag(div(v.forward)) - mu * e + damp * taunext
+    if model.is_tti:
+        eq_tau = tau_dt - model.C.prod(e) + damp * taunext
+    else:
+        eq_tau = tau_dt - lam * diag(div(v.forward)) - mu * e + damp * taunext
 
     u_v = [Eq(vnext, solve(eq_v, vnext), subdomain=model.physical)]
     if model.fs:

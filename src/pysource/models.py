@@ -13,6 +13,7 @@ try:
     from devitopro import *  # noqa
     from devitopro.subdomains.abox import ABox
     from devitopro.data import Float16
+    from recipes.elastic_tti.stiffness import SeismicStiffness
 except ImportError:
     ABox = None
     Float16 = lambda *ar, **kw: np.float32
@@ -96,7 +97,7 @@ def damp_op(ndim, padsizes, abc_type, fs):
     return Operator(eqs, name='initdamp')
 
 
-@switchconfig(log_level='ERROR')
+@switchconfig(log_level='ERROR', decoupler=False)
 def initialize_damp(damp, padsizes, abc_type="damp", fs=False):
     """
     Initialise damping field with an absorbing boundary layer.
@@ -240,6 +241,10 @@ class Model(object):
                 b = 1
             vp_vals = ((to_numpy(lam) + 2 * mu) * b)**(.5)
 
+        # Elastic tti only supported in pro
+        if SeismicStiffness is None and self._is_elastic and self._is_tti:
+            raise NotImplementedError("Elastic TTI is only supported with DevitoPro")
+
         # User provided dt
         self._dt = kwargs.get('dt')
 
@@ -319,9 +324,13 @@ class Model(object):
             function = Function(name=name, grid=self.grid, space_order=space_order,
                                 parameter=is_param, avg_mode=avg_mode, dtype=dtype)
             pad = 0 if field.shape == function.shape else self.padsizes
-            initialize_function(function, to_numpy(field), pad)
+            with switchconfig(decoupler=False):
+                initialize_function(function, to_numpy(field), pad)
         else:
-            function = Constant(name=name, value=np.amin(field))
+            if field == 0:
+                return 0
+            else:
+                function = Constant(name=name, value=np.amin(field))
         self._physical_parameters.append(name)
         return function
 
@@ -496,6 +505,11 @@ class Model(object):
         """
         sp_map = self.grid.spacing_map
         return sp_map
+
+    @property
+    def C(self):
+        C = SeismicStiffness(self.dim, precompute=True, **self.physical_params())
+        return C
 
     def abox(self, src, rec, fw=True):
         if ABox is None or (src is None and rec is None):
