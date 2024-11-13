@@ -1,7 +1,6 @@
 import numpy as np
-from sympy import cos, sin
 
-from devito import Eq, grad
+from devito import Eq, grad, cos, sin
 from devito.tools import as_tuple
 
 from fields import frequencies
@@ -174,7 +173,7 @@ def crosscorr_elas_time(u, v, model, **kwargs):
     """
     taua = v[1].trace()
     dlam = u[0] * taua / model.lam**2
-    im =  (model.lam * model.irho + model.mu)**2
+    im = (model.lam * model.irho + model.mu)**2
     expr = - dlam * im / model.irho
     return expr
 

@@ -83,20 +83,20 @@ rec_t.coordinates.data[:, 1] = 20.
 
 # Linearized data
 print("Forward J")
-dD_hat, u0l, _ = born(model, src.coordinates.data, rec_t.coordinates.data,
+dD_hat, u0l, _, _ = born(model, src.coordinates.data, rec_t.coordinates.data,
                       src.data, save=True, f0=f1)
 # dD_hat, u0l, _ = born(model, None, rec_t.coordinates.data,
 #                       src.data, save=True, ws=weights)
 # Forward
 print("Forward")
-_, u0, _ = forward(model, src.coordinates.data, rec_t.coordinates.data,
+_, u0, _, _ = forward(model, src.coordinates.data, rec_t.coordinates.data,
                    src.data, save=True, f0=f1)
 # _, u0, _ = forward(model, None, rec_t.coordinates.data,
 #                    src.data, save=True, ws=weights)
 
 # gradient
 print("Adjoint J")
-dm_hat, _ = gradient(model, dD_hat, rec_t.coordinates.data, u0, f0=f1)
+dm_hat, _, _ = gradient(model, dD_hat.data, rec_t.coordinates.data, u0, f0=f1)
 
 a2 = model.critical_dt * inner(dD_hat, dD_hat)
 b2 = inner(dm_hat, model.dm)

@@ -37,11 +37,13 @@ v0[:, 101:end] .= 2f0
 # Slowness squared [s^2/km^2]
 m = (1f0 ./ v).^2
 m0 = (1f0 ./ v0).^2
+rho = Gardner(v)
+rho0 = Gardner(v0)
 
 # Setup model structure
 nsrc = 1	# number of sources
-model = Model(n, d, o, m)
-model0 = Model(n, d, o, m0)
+model = Model(n, d, o, m; rho=rho)
+model0 = Model(n, d, o, m0; rho=rho0)
 
 #' # Create acquisition geometry
 #' In this simple usage example, we create a simple acquisiton by hand. In practice the acquisition geometry will be defined by the dataset

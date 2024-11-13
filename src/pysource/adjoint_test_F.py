@@ -73,11 +73,10 @@ rec_t.coordinates.data[:, 0] = np.linspace(0., 3000., num=301)
 rec_t.coordinates.data[:, 1] = 20.
 
 # Test data and source
-d_hat, u1, _ = forward(model, src1.coordinates.data, rec_t.coordinates.data, src1.data,
-                       f0=f1)
+d_hat, u1, _, _ = forward(model, src1.coordinates.data, rec_t.coordinates.data, src1.data, f0=f1)
 
 # Adjoint
-q0, _, _ = adjoint(model, d_hat, src1.coordinates.data, rec_t.coordinates.data, f0=f1)
+q0, _, _, _ = adjoint(model, rec_t.coordinates.data, src1.coordinates.data, d_hat.data, f0=f1)
 
 # Adjoint test
 a = inner(d_hat, d_hat)
