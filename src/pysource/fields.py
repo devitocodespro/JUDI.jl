@@ -40,24 +40,30 @@ def wavefield(model, space_order, save=False, nt=None, fw=True, name='', t_sub=1
     name = "u"+name if fw else "v"+name
     save = False if t_sub > 1 else save
     nsave = Buffer(3 if tfull else 2) if not save else nt
+    transi = not save
 
     if model.is_elastic:
         vn = "vel" if fw else "vela"
         taun = "stress" if fw else "stressa"
         v = VectorTimeFunction(name=vn, grid=model.grid, time_order=1,
-                               space_order=space_order, save=Buffer(1))
+                               space_order=space_order, save=Buffer(1),
+                               is_transient=transi)
         tau = TensorTimeFunction(name=taun, grid=model.grid, time_order=1,
-                                 space_order=space_order, save=Buffer(1))
+                                 space_order=space_order, save=Buffer(1),
+                                 is_transient=transi)
         return (v, tau)
     elif model.is_tti:
         u = TimeFunction(name="%s1" % name, grid=model.grid, time_order=2,
-                         space_order=space_order, save=nsave)
+                         space_order=space_order, save=nsave,
+                         is_transient=transi)
         v = TimeFunction(name="%s2" % name, grid=model.grid, time_order=2,
-                         space_order=space_order, save=nsave)
+                         space_order=space_order, save=nsave,
+                         is_transient=transi)
         return (u, v)
     else:
         return TimeFunction(name=name, grid=model.grid, time_order=2,
-                            space_order=space_order, save=nsave)
+                            space_order=space_order, save=nsave,
+                            is_transient=transi)
 
 
 def forward_wavefield(model, space_order, save=True, nt=10, dft=False, t_sub=1, fw=True):
@@ -119,7 +125,8 @@ def memory_field(p):
         Forward wavefield
     """
     return TimeFunction(name='r%s' % p.name, grid=p.grid, time_order=2,
-                        space_order=p.space_order, save=Buffer(2))
+                        space_order=p.space_order, save=Buffer(2),
+                        is_transient=True)
 
 
 def wavefield_subsampled(model, u, nt, t_sub, space_order=8):

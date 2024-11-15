@@ -84,13 +84,13 @@ rec_t.coordinates.data[:, 1] = 20.
 # Linearized data
 print("Forward J")
 dD_hat, u0l, _, _ = born(model, src.coordinates.data, rec_t.coordinates.data,
-                      src.data, save=True, f0=f1)
+                         src.data, save=True, f0=f1)
 # dD_hat, u0l, _ = born(model, None, rec_t.coordinates.data,
 #                       src.data, save=True, ws=weights)
 # Forward
 print("Forward")
 _, u0, _, _ = forward(model, src.coordinates.data, rec_t.coordinates.data,
-                   src.data, save=True, f0=f1)
+                      src.data, save=True, f0=f1)
 # _, u0, _ = forward(model, None, rec_t.coordinates.data,
 #                    src.data, save=True, ws=weights)
 
