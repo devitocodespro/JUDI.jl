@@ -34,7 +34,7 @@ jobs:
         op: ["ISO_OP", "ISO_OP_FS", "TTI_OP", "TTI_OP_FS", "BASICS"]
         version: ['1']
         omp: [2]
-        cc: ['gcc-11']
+        cc: ['gcc']
         arch: ['x64']
   
         include:
@@ -46,31 +46,31 @@ jobs:
             arch: ARM64
 
           - os: macos-15
-            version: '1.8'
+            version: 'lts'
             op: "ISO_OP"
             omp: 1
             cc: clang
             arch: ARM64
 
           - os: macos-15
-            version: '1.9'
+            version: '1'
             op: "ISO_OP"
             omp: 1
             cc: clang
             arch: ARM64
 
           - os: ubuntu-latest
-            version: '1.9'
+            version: '1'
             op: "VISCO_AC_OP"
             omp: 2
-            cc: gcc-11
+            cc: gcc
             arch: x64
 
           - os: ubuntu-latest
-            version: '1.10'
+            version: '1'
             op: "ISO_OP"
             omp: 2
-            cc: gcc-11
+            cc: gcc
             arch: x64
 
     steps:

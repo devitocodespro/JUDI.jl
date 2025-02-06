@@ -192,7 +192,7 @@ TWRIOptions
 
 ## Machine Learning
 
-[ChainRules.jl](https://github.com/JuliaDiff/ChainRules.jl) allows integrating JUDI modeling operators into convolutional neural networks for deep learning. For example, the following code snippet shows how to create a shallow CNN consisting of two convolutional layers with a nonlinear forward modeling layer in-between them. The integration of ChainRules and JUDI enables backpropagation through Flux' automatic differentiation tool, but calls the corresponding adjoint JUDI operators under the hood. For more details, please check out [this tutorial](https://github.com/slimgroup/JUDI.jl/blob/master/examples/notebooks/06_automatic_differentiation.ipynb).
+[ChainRules.jl](https://github.com/JuliaDiff/ChainRules.jl) allows integrating JUDI modeling operators into convolutional neural networks for deep learning. For example, the following code snippet shows how to create a shallow CNN consisting of two convolutional layers with a nonlinear forward modeling layer in-between them. The integration of ChainRules and JUDI enables backpropagation through Flux' automatic differentiation tool, but calls the corresponding adjoint JUDI operators under the hood. For more details, please check out [this tutorial](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/notebooks/06_automatic_differentiation.ipynb).
 
 ```julia
 # Jacobian
