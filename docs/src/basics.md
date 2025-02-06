@@ -1,8 +1,8 @@
 # Getting Started
 
 These tutorials provide instructions of how to set up various modeling or inversion scenarios with JUDI. For a list of runnable Julia scripts and reproducable research, please also check out the examples:
- - The [examples](https://github.com/slimgroup/JUDI.jl/tree/master/examples/scripts) scripts contain simple modeling and inversion examples such as FWI, LSRTM, and medical modeling.
- - The [machine-learning](https://github.com/slimgroup/JUDI.jl/tree/master/examples/machine-learning) scripts contain examples of machine learning using Flux.
+ - The [examples](https://github.com/devitocodespro/JUDI.jl/tree/master/examples/scripts) scripts contain simple modeling and inversion examples such as FWI, LSRTM, and medical modeling.
+ - The [machine-learning](https://github.com/devitocodespro/JUDI.jl/tree/master/examples/machine-learning) scripts contain examples of machine learning using Flux.
 
 ```@contents
 Pages = ["tutorials.md"]
@@ -364,7 +364,7 @@ rec_geometry = Geometry(xrec, yrec, zrec; dt=dt, t=time)
 src_geometry = Geometry(xsrc, ysrc, zsrc; dt=dt, t=time)
 ```
 
-You can find a full (reproducable) example for generating a marine streamer data set for the Sigsbee 2A model [here](https://github.com/slimgroup/JUDI.jl/blob/master/examples/compressive_splsrtm/Sigsbee2A/generate_data_sigsbee.jl).
+You can find a full (reproducable) example for generating a marine streamer data set for the Sigsbee 2A model [here](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/compressive_splsrtm/Sigsbee2A/generate_data_sigsbee.jl).
 
 
 ## Simultaneous sources
@@ -618,7 +618,7 @@ rtm = reshape(rtm, model.n)
 imshow(rtm', cmap="gray", vmin=-3e6, vmax=3e6)
 ```
 
-Please also refer to the reproducable example on github for [2D](https://github.com/slimgroup/JUDI.jl/blob/master/examples/scripts/modeling_extended_source_2D.jl) and [3D](https://github.com/slimgroup/JUDI.jl/blob/master/examples/scripts/modeling_extended_source_3D.jl) extended modeling.
+Please also refer to the reproducable example on github for [2D](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/scripts/modeling_extended_source_2D.jl) and [3D](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/scripts/modeling_extended_source_3D.jl) extended modeling.
 
 ## Impedance imaging (inverse scattering)
 

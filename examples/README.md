@@ -27,15 +27,15 @@ Pkg.add("LineSearches")
 
 ## Overview
 
- * Generic JUDI examples can be found in [scripts](https://github.com/slimgroup/JUDI.jl/tree/master/examples/scripts)
+ * Generic JUDI examples can be found in [scripts](https://github.com/devitocodespro/JUDI.jl/tree/master/examples/scripts)
 
- * Jupyter notebooks for FWI can be found in [notebooks](https://github.com/slimgroup/JUDI.jl/tree/master/examples/notebooks)
+ * Jupyter notebooks for FWI can be found in [notebooks](https://github.com/devitocodespro/JUDI.jl/tree/master/examples/notebooks)
 
- * Reproducable examples for *A large-scale framework for symbolic implementations of seismic inversion algorithms in Julia* are available in [software_paper](https://github.com/slimgroup/JUDI.jl/tree/master/examples/software_paper)
+ * Reproducable examples for *A large-scale framework for symbolic implementations of seismic inversion algorithms in Julia* are available in [software_paper](https://github.com/devitocodespro/JUDI.jl/tree/master/examples/software_paper)
 
- * Reproducable examples for *Compressive least squares migration with on-the-fly Fourier transforms* are available in [compressive_splsrtm](https://github.com/slimgroup/JUDI.jl/tree/master/examples/compressive_splsrtm)
+ * Reproducable examples for *Compressive least squares migration with on-the-fly Fourier transforms* are available in [compressive_splsrtm](https://github.com/devitocodespro/JUDI.jl/tree/master/examples/compressive_splsrtm)
 
- * Examples related to *A dual formulation of wavefield reconstruction inversion for large-scale seismic inversion* are available in [twri](https://github.com/slimgroup/JUDI.jl/tree/master/examples/twri)
+ * Examples related to *A dual formulation of wavefield reconstruction inversion for large-scale seismic inversion* are available in [twri](https://github.com/devitocodespro/JUDI.jl/tree/master/examples/twri)
 
 ## References
 

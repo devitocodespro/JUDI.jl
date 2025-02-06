@@ -12,7 +12,7 @@ This package was written by [Philipp Witte](https://www.linkedin.com/in/philipp-
 - Felix J. Herrmann (Georgia Institute of Technology)
 
 
-And you can find the full list of collaborators on github at [Contributors](https://github.com/slimgroup/JUDI.jl/graphs/contributors).
+And you can find the full list of collaborators on github at [Contributors](https://github.com/devitocodespro/JUDI.jl/graphs/contributors).
 
 
 ## Cite us
@@ -41,11 +41,11 @@ Also visit the Devito homepage at <https://www.devitoproject.org/publications> f
 
 We gladly welcome and encorage contributions from the community to improve our software and its usability. Feel free to:
 
-- Open [issues](https://github.com/slimgroup/JUDI.jl/issues) for bugs
-- Start [discussions](https://github.com/slimgroup/JUDI.jl/discussions) to interat with the developper and ask any questions
-- Open [PR](https://github.com/slimgroup/JUDI.jl/pulls) for bug fixes and improvements
+- Open [issues](https://github.com/devitocodespro/JUDI.jl/issues) for bugs
+- Start [discussions](https://github.com/devitocodespro/JUDI.jl/discussions) to interat with the developper and ask any questions
+- Open [PR](https://github.com/devitocodespro/JUDI.jl/pulls) for bug fixes and improvements
 
 
 ## Field examples
 
-An example of using JUDI to invert field data is provided for the [Viking Graben Line 12](https://github.com/slimgroup/JUDI.jl/examples/field_examples/viking_graben_line12) which includes data preprocessing steps using Madagascar. 
+An example of using JUDI to invert field data is provided for the [Viking Graben Line 12](https://github.com/devitocodespro/JUDI.jl/examples/field_examples/viking_graben_line12) which includes data preprocessing steps using Madagascar. 

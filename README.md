@@ -13,18 +13,18 @@
 
 We gladly welcome and encourage contributions from the community to improve our software and its usability. Feel free to:
 
-- Open [issues](https://github.com/slimgroup/JUDI.jl/issues) for bugs
-- Start [discussions](https://github.com/slimgroup/JUDI.jl/discussions) to interact with the developer and ask any questions
-- Open [PR](https://github.com/slimgroup/JUDI.jl/pulls) for bug fixes and improvements
+- Open [issues](https://github.com/devitocodespro/JUDI.jl/issues) for bugs
+- Start [discussions](https://github.com/devitocodespro/JUDI.jl/discussions) to interact with the developer and ask any questions
+- Open [PR](https://github.com/devitocodespro/JUDI.jl/pulls) for bug fixes and improvements
 
 
 ## FAQ
 
-You can find an FAQ with answers to issues at [FAQ](https://github.com/slimgroup/JUDI.jl/wiki/FAQ)
+You can find an FAQ with answers to issues at [FAQ](https://github.com/devitocodespro/JUDI.jl/wiki/FAQ)
 
 ## Installation and prerequisites
 
-You can find installation instructions in our Wiki at [Installation](https://github.com/slimgroup/JUDI.jl/wiki/Installation)
+You can find installation instructions in our Wiki at [Installation](https://github.com/devitocodespro/JUDI.jl/wiki/Installation)
 
 ## GPU
 
@@ -322,11 +322,11 @@ Contact authors via: mlouboutin3@gatech.edu.
 [docs-dev-img]:https://img.shields.io/badge/docs-dev-blue.svg
 [docs-dev-status]:https://slimgroup.github.io/JUDI.jl/dev
 
-[build-img]:https://github.com/slimgroup/JUDI.jl/workflows/CI-tests/badge.svg?style=plastic
-[build-status]:https://github.com/slimgroup/JUDI.jl/actions?query=workflow%3ACI-tests
+[build-img]:https://github.com/devitocodespro/JUDI.jl/workflows/CI-tests/badge.svg?style=plastic
+[build-status]:https://github.com/devitocodespro/JUDI.jl/actions?query=workflow%3ACI-tests
 
-[codecov-img]:https://codecov.io/gh/slimgroup/JUDI.jl/branch/master/graph/badge.svg?style=plastic
-[codecov-status]:https://codecov.io/gh/slimgroup/JUDI.jl
+[codecov-img]:https://codecov.io/gh/.jl/branch/master/graph/badge.svg?style=plastic
+[codecov-status]:https://codecov.io/gh/.jl
 
 [aqua-img]:https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg?style=plastic
 [aqua-status]:https://github.com/JuliaTesting/Aqua.jl
@@ -340,7 +340,7 @@ Contact authors via: mlouboutin3@gatech.edu.
 [docker-img]:https://img.shields.io/docker/v/mloubout/judi?color=blueviolet&label=docker&sort=semver
 [docker-url]:https://hub.docker.com/r/mloubout/judi
 
-[JUDI]:https://github.com/slimgroup/JUDI.jl
+[JUDI]:https://github.com/.jl
 [Devito]:https://github.com/devitocodes/devito
 [ChainRulesCore]:https://github.com/JuliaDiff/ChainRulesCore.jl
 [Flux]:https://github.com/FluxML/Flux.jl

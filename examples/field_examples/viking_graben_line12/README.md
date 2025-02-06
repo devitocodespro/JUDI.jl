@@ -28,7 +28,7 @@ this will install all required dependency at the version used to create these ex
 
 ## FWI and RTM
 
-After preprocessing is done FWI is the way to go. Inversion scripts is in `fwi` subfolder. Inversion/migration are done using [JUDI](https://github.com/slimgroup/JUDI.jl) interface.
+After preprocessing is done FWI is the way to go. Inversion scripts is in `fwi` subfolder. Inversion/migration are done using [JUDI](https://github.com/.jl) interface.
 
 The last steps are RTM and LSRTM wich are in `rtm` and `lsrtm` subfolders repectively.
 

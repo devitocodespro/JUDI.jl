@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains instructions and the scripts to reproduce the examples from the paper ["Compressive least squares migration with on-the-fly Fourier transforms" (Witte et al, 2019)](https://library.seg.org/doi/abs/10.1190/geo2018-0490.1). Running the examples requires Julia (version 1.1.0) and the JUDI package. Follow the instructions from the [main page](https://github.com/slimgroup/JUDI.jl) to install JUDI and its required packages. For questions, contact Philipp Witte at pwitte3@gatech.edu.
+This repository contains instructions and the scripts to reproduce the examples from the paper ["Compressive least squares migration with on-the-fly Fourier transforms" (Witte et al, 2019)](https://library.seg.org/doi/abs/10.1190/geo2018-0490.1). Running the examples requires Julia (version 1.1.0) and the JUDI package. Follow the instructions from the [main page](https://github.com/.jl) to install JUDI and its required packages. For questions, contact Philipp Witte at pwitte3@gatech.edu.
 
 ## Abstract
 
@@ -40,21 +40,21 @@ wget ftp://slim.gatech.edu/data/SoftwareRelease/Imaging.jl/CompressiveLSRTM/bp_s
 
 ## The linearized inverse scattering imaging condition
 
-To reproduce Figure 1 from the paper, run the script [compare_imaging_conditions.jl](https://github.com/slimgroup/JUDI.jl/blob/master/examples/compressive_splsrtm/Figure1/compare_imaging_conditions.jl). Forward and adjoint linearized modeling using on-the-fly DFTs with the two different imaging conditions is implemented using [Devito](https://github.com/opesci/devito). The linearized wave equations are set up as symbolic python objects and are defined in the JUDI source code. Follow [this link](https://github.com/slimgroup/JUDI.jl/blob/master/src/Python/JAcoustic_codegen.py) to see the implementations of the operators.
+To reproduce Figure 1 from the paper, run the script [compare_imaging_conditions.jl](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/compressive_splsrtm/Figure1/compare_imaging_conditions.jl). Forward and adjoint linearized modeling using on-the-fly DFTs with the two different imaging conditions is implemented using [Devito](https://github.com/opesci/devito). The linearized wave equations are set up as symbolic python objects and are defined in the JUDI source code. Follow [this link](https://github.com/devitocodespro/JUDI.jl/blob/master/src/Python/JAcoustic_codegen.py) to see the implementations of the operators.
 
 #### Figure: {#f1}
 ![](Figure1/figure1.png){width=80%}
 
 ## Time vs frequency domain imaging
 
-To reproduce Figure 2 from the paper, run the script [compare_imaging_time_frequency.jl](https://github.com/slimgroup/JUDI.jl/blob/master/examples/compressive_splsrtm/Figure2/compare_imaging_time_frequency.jl).
+To reproduce Figure 2 from the paper, run the script [compare_imaging_time_frequency.jl](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/compressive_splsrtm/Figure2/compare_imaging_time_frequency.jl).
 
 #### Figure: {#f2}
 ![](Figure2/figure2.png){width=80%}
 
 ## Sigsbee 2A example
 
-First generate the observed (linearized) data by running the [generate_data_sigsbee.jl](https://github.com/slimgroup/JUDI.jl/blob/master/examples/compressive_splsrtm/Sigsbee2A/generate_data_sigsbee.jl) script. The RTM results can be reproduced using the [rtm_sigsbee.jl](https://github.com/slimgroup/JUDI.jl/blob/master/examples/compressive_splsrtm/Sigsbee2A/rtm_sigsbee.jl) script. The time and frequency-domain SPLS-RTM results can be reproduced with the scripts [splsrtm_sigsbee_time_domain.jl](https://github.com/slimgroup/JUDI.jl/blob/master/examples/compressive_splsrtm/Sigsbee2A/splsrtm_sigsbee_time_domain.jl) and [splsrtm_sigsbee_frequency_domain.jl](https://github.com/slimgroup/JUDI.jl/blob/master/examples/compressive_splsrtm/Sigsbee2A/splsrtm_sigsbee_frequency_domain.jl).
+First generate the observed (linearized) data by running the [generate_data_sigsbee.jl](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/compressive_splsrtm/Sigsbee2A/generate_data_sigsbee.jl) script. The RTM results can be reproduced using the [rtm_sigsbee.jl](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/compressive_splsrtm/Sigsbee2A/rtm_sigsbee.jl) script. The time and frequency-domain SPLS-RTM results can be reproduced with the scripts [splsrtm_sigsbee_time_domain.jl](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/compressive_splsrtm/Sigsbee2A/splsrtm_sigsbee_time_domain.jl) and [splsrtm_sigsbee_frequency_domain.jl](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/compressive_splsrtm/Sigsbee2A/splsrtm_sigsbee_frequency_domain.jl).
 
 #### Figure: {#f3}
 ![](Sigsbee2A/figure1.png){width=80%}
@@ -65,7 +65,7 @@ First generate the observed (linearized) data by running the [generate_data_sigs
 
 ## BP Synthetic 2004 example
 
-First, we generate the observed (non-linear) data using the true velocity model and the density. The data can be generated by running the script [generate_data_bp2004.jl](https://github.com/slimgroup/JUDI.jl/blob/master/examples/compressive_splsrtm/BP_synthetic_2004/generate_data_bp2004.jl). The scripts [rtm_bp_2004_freq.jl](https://github.com/slimgroup/JUDI.jl/blob/master/examples/compressive_splsrtm/BP_synthetic_2004/rtm_bp_2004_freq.jl) and [splsrtm_bp_2004_freq.jl](https://github.com/slimgroup/JUDI.jl/blob/master/examples/compressive_splsrtm/BP_synthetic_2004/splsrtm_bp_2004_freq.jl) reproduce the frequency-domain RTM and SPLS-RTM results.
+First, we generate the observed (non-linear) data using the true velocity model and the density. The data can be generated by running the script [generate_data_bp2004.jl](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/compressive_splsrtm/BP_synthetic_2004/generate_data_bp2004.jl). The scripts [rtm_bp_2004_freq.jl](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/compressive_splsrtm/BP_synthetic_2004/rtm_bp_2004_freq.jl) and [splsrtm_bp_2004_freq.jl](https://github.com/devitocodespro/JUDI.jl/blob/master/examples/compressive_splsrtm/BP_synthetic_2004/splsrtm_bp_2004_freq.jl) reproduce the frequency-domain RTM and SPLS-RTM results.
 
 #### Figure: {#f5}
 ![](BP_synthetic_2004/figure1.png){width=80%}

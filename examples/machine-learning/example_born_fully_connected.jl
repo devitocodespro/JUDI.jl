@@ -1,7 +1,7 @@
 # Example for linearized modeling with Flux networks
 # Author: Mathias Louboutin, mlouboutin3@gatech.edu
 # Date: June 2022
-# Adapted from https://github.com/slimgroup/JUDI4Flux.jl/tree/master/examples
+# Adapted from https://github.com/4Flux.jl/tree/master/examples
 
 using JUDI, SegyIO, JOLI, Flux
 

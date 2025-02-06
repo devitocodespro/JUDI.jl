@@ -33,4 +33,4 @@ makedocs(sitename="JUDI documentation",
         )
 
 # Deploy documentation
-deploydocs(repo="github.com/slimgroup/JUDI.jl")
+deploydocs(repo="github.com/.jl")

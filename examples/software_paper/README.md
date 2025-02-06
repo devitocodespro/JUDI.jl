@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains instructions and the scripts to reproduce the examples from the paper ["A large-scale framework for symbolic implementations of seismic inversion algorithms in Julia" (Witte et al, 2019)](https://library.seg.org/doi/abs/10.1190/geo2018-0174.1). Running the examples requires Julia (version 1.1.0) and the JUDI package. Follow the instructions from the [main page](https://github.com/slimgroup/JUDI.jl) to install JUDI and its required packages. For questions, contact Philipp Witte at pwitte3@gatech.edu.
+This repository contains instructions and the scripts to reproduce the examples from the paper ["A large-scale framework for symbolic implementations of seismic inversion algorithms in Julia" (Witte et al, 2019)](https://library.seg.org/doi/abs/10.1190/geo2018-0174.1). Running the examples requires Julia (version 1.1.0) and the JUDI package. Follow the instructions from the [main page](https://github.com/.jl) to install JUDI and its required packages. For questions, contact Philipp Witte at pwitte3@gatech.edu.
 
 ## Abstract
 

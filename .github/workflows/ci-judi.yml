@@ -29,14 +29,14 @@ jobs:
       fail-fast: false
 
       matrix:
-        version: ['lts', '1.7', '1.8', '1.9', '1.10']
+        version: ['lts', '1']
         os: [ubuntu-latest]
         arch: ['x64']
         cc: ['gcc-12']
 
         include:
           - os: macos-15
-            version: '1'
+            version: 'lts'
             arch: ARM64
             cc: clang
 
