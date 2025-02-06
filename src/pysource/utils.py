@@ -127,7 +127,9 @@ def fields_kwargs(*args):
                     kw.update({f.name: f for f in field.flat()})
                     continue
                 except AttributeError:
-                    kw.update({field.name: field})
+                    if not(field.is_transient and
+                           isinstance(configuration['platform'], Device)):
+                        kw.update({field.name: field})
 
     return kw
 
