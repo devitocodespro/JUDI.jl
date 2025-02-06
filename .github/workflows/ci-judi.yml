@@ -36,7 +36,7 @@ jobs:
 
         include:
           - os: macos-15
-            version: '1'
+            version: 'lts'
             arch: ARM64
             cc: clang
 

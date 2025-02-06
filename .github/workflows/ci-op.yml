@@ -31,11 +31,12 @@ jobs:
 
       matrix:
         os: [ubuntu-latest]
-        op: ["ISO_OP", "ISO_OP_FS", "TTI_OP", "TTI_OP_FS", "BASICS"]
+        op: ["ISO_OP", "ISO_OP_FS", "TTI_OP", "TTI_OP_FS", "VISCO_AC_OP", "BASICS"]
         version: ['1']
         omp: [2]
-        cc: ['gcc']
+        cc: ['gcc-14']
         arch: ['x64']
+        Pro: ['no']
   
         include:
           - os: macos-15
@@ -44,6 +45,7 @@ jobs:
             omp: 1
             cc: clang
             arch: ARM64
+            Pro: 'no'
 
           - os: macos-15
             version: 'lts'
@@ -51,27 +53,15 @@ jobs:
             omp: 1
             cc: clang
             arch: ARM64
-
-          - os: macos-15
-            version: '1'
-            op: "ISO_OP"
-            omp: 1
-            cc: clang
-            arch: ARM64
-
-          - os: ubuntu-latest
-            version: '1'
-            op: "VISCO_AC_OP"
-            omp: 2
-            cc: gcc
-            arch: x64
+            Pro: 'no'
 
           - os: ubuntu-latest
             version: '1'
             op: "ISO_OP"
             omp: 2
-            cc: gcc
+            cc: gcc-14
             arch: x64
+            Pro: 'yes'
 
     steps:
       - name: Checkout JUDI
@@ -102,6 +92,13 @@ jobs:
           echo "PYCALL_JL_RUNTIME_PYTHON=$(which python3)" >> $GITHUB_ENV
           echo "JULIA_PYTHONCALL_EXE=$(which python3)" >> $GITHUB_ENV
           echo "JULIA_CONDAPKG_BACKEND=Null" >> $GITHUB_ENV
+
+      - name: Install pyarmor Pro
+        if: matrix.Pro == 'yes'
+        run: |
+          git clone --depth 1 ${{ secrets.PROCI }} devitopro
+          pip install -r devitopro/requirements-pyarmor.txt
+          python3 -m pip install ./devitopro
 
       - name: Build JUDI
         uses: julia-actions/julia-buildpkg@latest
