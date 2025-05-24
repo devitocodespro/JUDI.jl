@@ -2,9 +2,12 @@ import numpy as np
 
 from devito import warning
 from devito.tools import as_tuple
-from pyrevolve import Revolver
+try:
+    from pyrevolve import Revolver
+    from checkpoint import CheckpointOperator, DevitoCheckpoint
+except ImportError:
+    Revolver = None
 
-from checkpoint import CheckpointOperator, DevitoCheckpoint
 from propagators import forward, born, gradient, forward_grad
 from sensitivity import Loss
 from sources import Receiver
@@ -326,6 +329,8 @@ def J_adjoint(model, src_coords, wavelet, rec_coords, recin,
         Adjoint jacobian on the input data (gradient)
     """
     if checkpointing:
+        if Revolver is None:
+            raise ImportError("Checkpointing requires pyrevolve to be installed")
         return J_adjoint_checkpointing(model, src_coords, wavelet, rec_coords, recin,
                                        is_residual=is_residual, ws=ws,
                                        n_checkpoints=n_checkpoints, ic=ic, f0=f0,
